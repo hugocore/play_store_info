@@ -25,10 +25,10 @@ describe PlayStoreInfo do
         VCR.use_cassette('parse_airbnb') do
           parser = described_class.read('com.airbnb.android')
 
-          expect(parser[:id]).to eq('com.airbnb.android')
-          expect(parser[:name]).to eq('Airbnb')
-          expect(parser[:icon_url]).to start_with('http://lh6.ggpht.com/4jnm0-_9TBUdvNtQpefYE0T33')
-          expect(parser[:description]).to start_with('Make travel planning as mobile as you are')
+          expect(parser.id).to eq('com.airbnb.android')
+          expect(parser.name).to eq('Airbnb')
+          expect(parser.icon_url).to start_with('http://lh6.ggpht.com/4jnm0-_9TBUdvNtQpefYE0T33')
+          expect(parser.description).to start_with('Make travel planning as mobile as you are')
         end
       end
     end
@@ -69,10 +69,10 @@ describe PlayStoreInfo do
         VCR.use_cassette('parse_airbnb') do
           parser = described_class.read_url(airbnb)
 
-          expect(parser[:id]).to eq('com.airbnb.android')
-          expect(parser[:name]).to eq('Airbnb')
-          expect(parser[:icon_url]).to start_with('http://lh6.ggpht.com/4jnm0-_9TBUdvNtQpefYE0T33')
-          expect(parser[:description]).to start_with('Make travel planning as mobile as you are')
+          expect(parser.id).to eq('com.airbnb.android')
+          expect(parser.name).to eq('Airbnb')
+          expect(parser.icon_url).to start_with('http://lh6.ggpht.com/4jnm0-_9TBUdvNtQpefYE0T33')
+          expect(parser.description).to start_with('Make travel planning as mobile as you are')
         end
       end
     end

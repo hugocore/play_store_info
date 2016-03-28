@@ -20,25 +20,51 @@ describe AppParser do
     it 'scrapes the app name' do
       parser = described_class.new('id', app_name)
 
-      expect(parser.to_hash[:name]).to eq('Bob')
+      expect(parser.parse.name).to eq('Bob')
     end
 
     it 'scrapes the first part of the name if there is some description in the title' do
-      parser = described_class.new('id', app_name)
+      parser = described_class.new('id', app_detail)
 
-      expect(parser.to_hash[:name]).to eq('Bob')
+      expect(parser.parse.name).to eq('Bob')
     end
 
     it 'scrapes the app description' do
-      parser = described_class.new('id', app_detail)
+      parser = described_class.new('id', app_description)
 
-      expect(parser.to_hash[:name]).to eq('Bob')
+      expect(parser.parse.description).to eq('Yolo')
     end
 
     it "scrapes the app's icon url" do
       parser = described_class.new('id', app_icon)
 
-      expect(parser.to_hash[:icon_url]).to eq('http://icon.png')
+      expect(parser.parse.icon_url).to eq('http://icon.png')
+    end
+  end
+
+  describe '#parse' do
+    it 'scrapes the app name' do
+      parser = described_class.new('id', app_name)
+
+      expect(parser.parse.name).to eq('Bob')
+    end
+
+    it 'scrapes the first part of the name if there is some description in the title' do
+      parser = described_class.new('id', app_detail)
+
+      expect(parser.parse.name).to eq('Bob')
+    end
+
+    it 'scrapes the app description' do
+      parser = described_class.new('id', app_description)
+
+      expect(parser.parse.description).to eq('Yolo')
+    end
+
+    it "scrapes the app's icon url" do
+      parser = described_class.new('id', app_icon)
+
+      expect(parser.parse.icon_url).to eq('http://icon.png')
     end
   end
 end
