@@ -26,7 +26,7 @@ module PlayStoreInfo
 
     raise AppNotFound unless inspector.response.status == 200
 
-    AppParser.new(id, inspector.parsed).to_hash
+    AppParser.new(id, inspector.parsed).parse
   rescue Faraday::ConnectionFailed, Faraday::SSLError, Errno::ETIMEDOUT
     raise ConnectionError
   end
