@@ -1,0 +1,9 @@
+#!/usr/bin/env ruby
+
+require 'bundler/setup'
+require 'play_store_info'
+
+include PlayStoreInfo
+
+require 'pry'
+Pry.start
