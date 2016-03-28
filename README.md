@@ -1,6 +1,6 @@
 [![Build Status](https://travis-ci.org/hugocore/app_store_info.svg)](https://travis-ci.org/hugocore/app_store_info)
 
-# AppStoreInfo
+# PlayStoreInfo
 
 Get details about any app in the Google Play Store. This gem uses `MetaInspector` to scrape the
 app's Play Store web page and retrieve the necessary data.
@@ -28,8 +28,8 @@ Or install it yourself as:
 You first have to read the app details, using the store URL or directly with the ID:
 
 ```ruby
-app = AppStoreInfo.read_url('https://play.google.com/store/apps/details?id=com.airbnb.android&hl=en')
-app = AppStoreInfo.read('com.airbnb.android')
+app = PlayStoreInfo.read_url('https://play.google.com/store/apps/details?id=com.airbnb.android&hl=en')
+app = PlayStoreInfo.read('com.airbnb.android')
 ```
 
 Then you have some attributes that can be read easily:
