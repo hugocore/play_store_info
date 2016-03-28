@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/hugocore/app_store_info.svg)](https://travis-ci.org/hugocore/app_store_info)
+
 # AppStoreInfo
 
 Get details about any app in the Google Play Store. This gem uses `MetaInspector` to scrape the
