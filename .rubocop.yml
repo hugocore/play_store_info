@@ -1,8 +1,17 @@
+
+AllCops:
+  TargetRubyVersion: 2.3
+  Exclude:
+    - 'db/**/*'
+
+# Configuration parameters: AllowURI, URISchemes.
 Metrics/LineLength:
   Max: 100
 
+# Offense count: 6
+# Configuration parameters: Exclude.
 Style/Documentation:
   Enabled: false
 
-Style/NumericLiterals:
+Style/FrozenStringLiteralComment:
   Enabled: false
