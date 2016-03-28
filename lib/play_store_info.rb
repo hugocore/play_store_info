@@ -7,7 +7,11 @@ module PlayStoreInfo
   MIN_IDS_REGEXP_MATCHES = 2
   FIRST_ID_REGEXP_MATCH = 1
 
-  def self.read(url)
+  def self.read(id, lang = 'en')
+    parse(id, "https://play.google.com/store/apps/details?id=#{id}&hl=#{lang}")
+  end
+
+  def self.read_url(url)
     id = url.match(/id=([[:alnum:]\.]+)[&]?/)
 
     raise InvalidStoreLink unless google_store?(url) && id && id.length == MIN_IDS_REGEXP_MATCHES

@@ -10,11 +10,36 @@ describe PlayStoreInfo do
   end
 
   describe '.read' do
+    context 'invalid id' do
+      it 'raises error saying that it could not find the app' do
+        VCR.use_cassette('invalid_id') do
+          expect do
+            described_class.read('com.n00b.wrong.app')
+          end.to raise_error(PlayStoreInfo::AppNotFound)
+        end
+      end
+    end
+
+    context 'with a valid id' do
+      it "parses the app's Play Store using its id and retrieves its data" do
+        VCR.use_cassette('parse_airbnb') do
+          parser = described_class.read('com.airbnb.android')
+
+          expect(parser[:id]).to eq('com.airbnb.android')
+          expect(parser[:name]).to eq('Airbnb')
+          expect(parser[:icon_url]).to start_with('http://lh6.ggpht.com/4jnm0-_9TBUdvNtQpefYE0T33')
+          expect(parser[:description]).to start_with('Make travel planning as mobile as you are')
+        end
+      end
+    end
+  end
+
+  describe '.read_url' do
     context 'something wrong' do
       it 'raises error if the URL does not follow the right format' do
         VCR.use_cassette('invalid_url') do
           expect do
-            described_class.read(invalid_url)
+            described_class.read_url(invalid_url)
           end.to raise_error(PlayStoreInfo::InvalidStoreLink)
         end
       end
@@ -22,7 +47,7 @@ describe PlayStoreInfo do
       it 'raises error if the URL points to an app that does not exists' do
         VCR.use_cassette('dummy_url') do
           expect do
-            described_class.read(dummy_url)
+            described_class.read_url(dummy_url)
           end.to raise_error(PlayStoreInfo::AppNotFound)
         end
       end
@@ -33,16 +58,16 @@ describe PlayStoreInfo do
           stub_request(:get, /play\.google\.com/).to_return(status: 404, body: '{}')
 
           expect do
-            described_class.read(airbnb)
+            described_class.read_url(airbnb)
           end.to raise_error(PlayStoreInfo::AppNotFound)
         end
       end
     end
 
     context 'with a valid URL' do
-      it 'parses the Play Store and retrieves every data' do
+      it "parses the app's Play Store page and retrieves its data" do
         VCR.use_cassette('parse_airbnb') do
-          parser = described_class.read(airbnb)
+          parser = described_class.read_url(airbnb)
 
           expect(parser[:id]).to eq('com.airbnb.android')
           expect(parser[:name]).to eq('Airbnb')
