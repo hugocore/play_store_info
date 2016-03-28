@@ -4,6 +4,7 @@ require 'vcr'
 require 'faraday'
 require 'webmock/rspec'
 require 'play_store_info'
+require 'pry'
 
 include PlayStoreInfo
 

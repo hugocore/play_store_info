@@ -1,51 +1,63 @@
+require 'metainspector'
+
 module PlayStoreInfo
-  store_link 'https://play.google.com/store/apps/details?id=com.your.app&hl=en'.freeze
+  MIN_REGEXP_MATCHES = 2.freeze
+  FIRST_REGEXP_MATCH = 1.freeze
 
-  attr_accessor :url, :id, :inspector
+  def self.read(url)
+    id = url.match(/id=([[:alnum:]\.]+)[&]?/)
 
-  def read(url)
-    @url = url
-    @id = @url.match(/id=([[:alnum:]\.]+)[&]?/)
+    raise InvalidStoreLink unless google_store?(url) && id && id.length == MIN_REGEXP_MATCHES
 
-    raise InvalidStoreLink, "URL should look like '#{store_link}'" unless google_store? && @id
-
-    @id = @id[1]
-  end
-
-  def parse
-    @address = @url
-
-    @inspector ||= MetaInspector.new(url)
-
-    {
-      id: @id,
-      name: read_app_name,
-      icon_url: read_logo_url,
-      description: read_description
-    }
+    parse(id[FIRST_REGEXP_MATCH], url)
   end
 
   private
 
-  def google_store?
-    @url.match(%r{\Ahttps://play.google.com}).any?
+  def parse(id, url)
+    inspector ||= MetaInspector.new(url)
+
+    {
+      id: id,
+      name: read_app_name(inspector),
+      icon_url: read_logo_url(inspector),
+      description: read_description(inspector)
+    }
   end
 
-  def read_app_name
+  def google_store?(url)
+    url.match(%r{\Ahttps://play.google.com})
+  end
+
+  def read_app_name(inspector)
     name = inspector.parsed.xpath('//div[@class="document-title"]/div/text()').text
 
-    raise AppNotFound, "App not found at '#{@url}'" unless name
+    raise AppNotFound if name.empty?
 
-    name = name.split('-').first
-
-    name.strip
+    name.split('-').first
   end
 
-  def read_logo_url
-    inspector.parsed.xpath('//img[@class="cover-image"]/@src').first.try(:value) || ''
+  def read_logo_url(inspector)
+    inspector.parsed.xpath('//img[@class="cover-image"]/@src').first&.value || ''
   end
 
-  def read_description
-    inspector.parsed.xpath('//div[@itemprop="description"]').first.inner_html.strip
+  def read_description(inspector)
+    inspector.parsed.xpath('//div[@itemprop="description"]').first&.inner_html
+  end
+
+  class GenericError < StandardError; end
+
+  class InvalidStoreLink < GenericError
+    def initialize
+      store_link = 'https://play.google.com/store/apps/details?id=com.your.app&hl=en'.freeze
+
+      super "URL should look like '#{store_link}'"
+    end
+  end
+
+  class AppNotFound < GenericError
+    def initialize
+      super 'Could not find app in Google Play Store'
+    end
   end
 end
