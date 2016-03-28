@@ -11,7 +11,7 @@ Gem::Specification.new do |spec|
   spec.authors     = ['Hugo Sequeira']
   spec.email       = ['hugoandresequeira@gmail.com']
 
-  spec.homepage    = 'TODO'
+  spec.homepage    = 'https://github.com/hugocore/play_store_info'
   spec.summary     = 'Simple Google Play store parser'
   spec.description = 'Simple Google Play store parser'
   spec.license     = 'MIT'
@@ -19,7 +19,7 @@ Gem::Specification.new do |spec|
   spec.bindir        = 'exe'
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ['lib']
-  spec.files         = 'git ls-files -z'.split("\x0").reject { |f| f.match(%r{^(spec)/}) }
+  spec.files         = `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(spec)/}) }
 
   spec.add_dependency 'metainspector', '~> 5.1.1'
   spec.add_dependency 'sanitize', '~> 4.0.1'
