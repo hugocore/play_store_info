@@ -22,6 +22,7 @@ Gem::Specification.new do |spec|
   spec.files         = 'git ls-files -z'.split("\x0").reject { |f| f.match(%r{^(spec)/}) }
 
   spec.add_dependency 'metainspector', '~> 5.1.1'
+  spec.add_dependency 'sanitize', '~> 4.0.1'
 
   spec.add_development_dependency 'bundler', '~> 1.10'
   spec.add_development_dependency 'rake', '~> 10.0'
@@ -29,7 +30,6 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'rubocop', '~> 0.35'
   spec.add_development_dependency 'rubocop-rspec', '~> 1.3'
   spec.add_development_dependency 'pry', '~> 0.10'
-  spec.add_development_dependency 'pry-debugger'
   spec.add_development_dependency 'vcr', '~> 3.0'
   spec.add_development_dependency 'webmock', '~> 1.22'
 end
