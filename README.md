@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/hugocore/app_store_info.svg)](https://travis-ci.org/hugocore/app_store_info)
+[![Build Status](https://travis-ci.org/hugocore/play_store_info.svg)](https://travis-ci.org/hugocore/play_store_info)
 
 # PlayStoreInfo
 
