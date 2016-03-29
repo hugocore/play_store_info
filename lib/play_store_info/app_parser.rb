@@ -1,5 +1,4 @@
 require 'play_store_info/readers'
-require 'ostruct'
 
 module PlayStoreInfo
   class AppParser
