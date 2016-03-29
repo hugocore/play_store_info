@@ -27,7 +27,7 @@ describe PlayStoreInfo do
 
           expect(parser.id).to eq('com.airbnb.android')
           expect(parser.name).to eq('Airbnb')
-          expect(parser.icon_url).to start_with('http://lh6.ggpht.com/4jnm0-_9TBUdvNtQpefYE0T33')
+          expect(parser.artwork).to start_with('http://lh6.ggpht.com/4jnm0-_9TBUdvNtQpefYE0T33')
           expect(parser.description).to start_with('Make travel planning as mobile as you are')
         end
       end
@@ -71,7 +71,7 @@ describe PlayStoreInfo do
 
           expect(parser.id).to eq('com.airbnb.android')
           expect(parser.name).to eq('Airbnb')
-          expect(parser.icon_url).to start_with('http://lh6.ggpht.com/4jnm0-_9TBUdvNtQpefYE0T33')
+          expect(parser.artwork).to start_with('http://lh6.ggpht.com/4jnm0-_9TBUdvNtQpefYE0T33')
           expect(parser.description).to start_with('Make travel planning as mobile as you are')
         end
       end
