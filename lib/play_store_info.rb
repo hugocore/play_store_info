@@ -7,31 +7,33 @@ module PlayStoreInfo
   MIN_IDS_REGEXP_MATCHES = 2
   FIRST_ID_REGEXP_MATCH = 1
 
-  def self.read(id, lang = 'en')
-    parse(id, "https://play.google.com/store/apps/details?id=#{id}&hl=#{lang}")
-  end
+  class << self
+    def read(id, lang = 'en')
+      parse(id, "https://play.google.com/store/apps/details?id=#{id}&hl=#{lang}")
+    end
 
-  def self.read_url(url)
-    id = url.match(/id=([[:alnum:]\.]+)[&]?/)
+    def read_url(url)
+      id = url.match(/id=([[:alnum:]\.]+)[&]?/)
 
-    raise InvalidStoreLink unless google_store?(url) && id && id.length == MIN_IDS_REGEXP_MATCHES
+      raise InvalidStoreLink unless google_store?(url) && id && id.length == MIN_IDS_REGEXP_MATCHES
 
-    parse(id[FIRST_ID_REGEXP_MATCH], url)
-  end
+      parse(id[FIRST_ID_REGEXP_MATCH], url)
+    end
 
-  private
+    private
 
-  def parse(id, url)
-    inspector ||= MetaInspector.new(url)
+    def parse(id, url)
+      inspector ||= MetaInspector.new(url)
 
-    raise AppNotFound unless inspector.response.status == 200
+      raise AppNotFound unless inspector.response.status == 200
 
-    AppParser.new(id, inspector.parsed)
-  rescue Faraday::ConnectionFailed, Faraday::SSLError, Errno::ETIMEDOUT
-    raise ConnectionError
-  end
+      AppParser.new(id, inspector.parsed)
+    rescue Faraday::ConnectionFailed, Faraday::SSLError, Errno::ETIMEDOUT
+      raise ConnectionError
+    end
 
-  def google_store?(url)
-    url.match(%r{\Ahttps://play.google.com})
+    def google_store?(url)
+      url.match(%r{\Ahttps://play.google.com})
+    end
   end
 end
