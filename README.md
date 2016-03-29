@@ -37,7 +37,7 @@ Then you have some attributes that can be read easily:
 ```ruby
 app.id                  # => "com.airbnb.android"
 app.name                # => "Airbnb"
-app.icon_url            # => "http://lh6.ggpht.com/4jnm0-_9TBUdvNtQpefYE0T33..."
+app.artwork            # => "http://lh6.ggpht.com/4jnm0-_9TBUdvNtQpefYE0T33..."
 app.description         # => "Make travel planning as mobile as you are..."
 ```
 
