@@ -8,11 +8,28 @@ describe AppParser do
   let(:app_icon) { Nokogiri::HTML(name + '<img itemprop="image" src="//icon.png">') }
 
   describe '#new' do
-    it 'creates an app parser' do
-      parser = described_class.new('com.my.app', '<html></html>')
+    it 'scrapes the app name' do
+      parser = described_class.new('id', app_name)
 
-      expect(parser.instance_variable_get(:@id)).to eq('com.my.app')
-      expect(parser.instance_variable_get(:@body)).to eq('<html></html>')
+      expect(parser.name).to eq('Bob')
+    end
+
+    it 'scrapes the first part of the name if there is some description in the title' do
+      parser = described_class.new('id', app_detail)
+
+      expect(parser.name).to eq('Bob')
+    end
+
+    it 'scrapes the app description' do
+      parser = described_class.new('id', app_description)
+
+      expect(parser.description).to eq('Yolo')
+    end
+
+    it "scrapes the app's icon url" do
+      parser = described_class.new('id', app_icon)
+
+      expect(parser.artwork).to eq('http://icon.png')
     end
   end
 
@@ -20,51 +37,59 @@ describe AppParser do
     it 'scrapes the app name' do
       parser = described_class.new('id', app_name)
 
-      expect(parser.parse.name).to eq('Bob')
+      expect(parser.to_hash[:name]).to eq('Bob')
     end
 
     it 'scrapes the first part of the name if there is some description in the title' do
       parser = described_class.new('id', app_detail)
 
-      expect(parser.parse.name).to eq('Bob')
+      expect(parser.to_hash[:name]).to eq('Bob')
     end
 
     it 'scrapes the app description' do
       parser = described_class.new('id', app_description)
 
-      expect(parser.parse.description).to eq('Yolo')
+      expect(parser.to_hash[:description]).to eq('Yolo')
     end
 
     it "scrapes the app's icon url" do
       parser = described_class.new('id', app_icon)
 
-      expect(parser.parse.icon_url).to eq('http://icon.png')
+      expect(parser.to_hash[:artwork]).to eq('http://icon.png')
     end
   end
 
-  describe '#parse' do
+  describe '#to_json' do
     it 'scrapes the app name' do
       parser = described_class.new('id', app_name)
 
-      expect(parser.parse.name).to eq('Bob')
+      parsed = JSON.parse(parser.to_json)
+
+      expect(parsed['name']).to eq('Bob')
     end
 
     it 'scrapes the first part of the name if there is some description in the title' do
       parser = described_class.new('id', app_detail)
 
-      expect(parser.parse.name).to eq('Bob')
+      parsed = JSON.parse(parser.to_json)
+
+      expect(parsed['name']).to eq('Bob')
     end
 
     it 'scrapes the app description' do
       parser = described_class.new('id', app_description)
 
-      expect(parser.parse.description).to eq('Yolo')
+      parsed = JSON.parse(parser.to_json)
+
+      expect(parsed['description']).to eq('Yolo')
     end
 
     it "scrapes the app's icon url" do
       parser = described_class.new('id', app_icon)
 
-      expect(parser.parse.icon_url).to eq('http://icon.png')
+      parsed = JSON.parse(parser.to_json)
+
+      expect(parsed['artwork']).to eq('http://icon.png')
     end
   end
 end
