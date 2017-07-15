@@ -73,7 +73,7 @@ module PlayStoreInfo
 
     def read_author
       author = @body.xpath('//span[@itemprop="name"]/text()').text
-      read_author.nil? ? '' : read_author.strip
+      author.nil? ? '' : author.strip
     end
 
   end
