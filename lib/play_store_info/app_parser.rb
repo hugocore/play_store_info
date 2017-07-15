@@ -4,7 +4,7 @@ module PlayStoreInfo
   class AppParser
     include PlayStoreInfo::Readers
 
-    readers %w(id name artwork description)
+    readers %w(id name artwork description current_rating rating_count genre_names url price author)
 
     def initialize(id, body)
       @id = id
@@ -42,5 +42,39 @@ module PlayStoreInfo
 
       description.nil? ? '' : Sanitize.fragment(description).strip
     end
+
+    def read_current_rating
+      current_rating = @body.xpath('//div[@class="score"]/text()').text
+      current_rating.nil? ? '' : current_rating.strip
+    end
+
+    def read_rating_count
+      rating_count = @body.xpath('//span[@class="reviews-num"]/text()').text
+      rating_count.nil? ? '' : rating_count.split(",").join().strip
+    end
+
+    def read_genre_names
+      genre_names = []
+      @body.xpath('//span[@itemprop="genre"]').each do |tag|
+        genre_names << tag.text
+      end
+      genre_names
+    end
+
+    def read_url
+      url = @body.xpath('//a[@class="dev-link"]/@href').first&.value&.strip || ''
+      url.match(%r{^https?:\/\/}).nil? ? "http://#{url.gsub(%r{\A\/\/}, '')}" : url
+    end
+
+    def read_price
+      price = @body.xpath('//meta[@itemprop="price"]/@content').first&.value&.strip || ''
+      price.nil? ? '' : price.strip
+    end
+
+    def read_author
+      author = @body.xpath('//span[@itemprop="name"]/text()').text
+      read_author.nil? ? '' : read_author.strip
+    end
+
   end
 end
