@@ -22,7 +22,7 @@ module PlayStoreInfo
     end
 
     def read_name
-      name = @body.xpath('//div[@itemprop="name"]/div/text()').text
+      name = @body.xpath('//h1[@itemprop="name"]').text
 
       raise AppNotFound if name.empty?
 
@@ -44,18 +44,18 @@ module PlayStoreInfo
     end
 
     def read_current_rating
-      current_rating = @body.xpath('//div[@class="score"]/text()').text
+      current_rating = @body.xpath('//meta[@itemprop="ratingValue/@content"]').first&.value&.strip || ''
       current_rating.nil? ? '' : current_rating.strip
     end
 
     def read_rating_count
-      rating_count = @body.xpath('//span[@class="reviews-num"]/text()').text
+      rating_count = @body.xpath('//meta[@itemprop="ratingCount/@content"]').first&.value&.strip || ''
       rating_count.nil? ? '' : rating_count.split(",").join().strip
     end
 
     def read_genre_names
       genre_names = []
-      @body.xpath('//span[@itemprop="genre"]').each do |tag|
+      @body.xpath('//a[@itemprop="genre"]').each do |tag|
         genre_names << tag.text
       end
       genre_names
@@ -72,7 +72,7 @@ module PlayStoreInfo
     end
 
     def read_author
-      author = @body.xpath('//span[@itemprop="name"]/text()').text
+      author = @body.xpath('//div[contains(text(), "Offered By")]/following-sibling::div').text()
       author.nil? ? '' : author.strip
     end
 
