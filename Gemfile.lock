@@ -49,7 +49,7 @@ GEM
     nesty (1.0.2)
     nokogiri (1.8.2)
       mini_portile2 (~> 2.3.0)
-    nokogumbo (1.4.13)
+    nokogumbo (2.0.5)
       nokogiri
     parser (2.3.0.7)
       ast (~> 2.2)
@@ -85,7 +85,7 @@ GEM
     sanitize (4.0.1)
       crass (~> 1.0.2)
       nokogiri (>= 1.4.4)
-      nokogumbo (~> 1.4.1)
+      nokogumbo (~> 2.0.5)
     slop (3.6.0)
     unf (0.1.4)
       unf_ext
